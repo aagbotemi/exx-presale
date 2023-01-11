@@ -10,7 +10,15 @@ module.exports = {
         primary: '#174AFF',
         deep_blue: '#1D2A65',
         light_blue: '#D3F4F9',
-        grey: '#D9D9D9'
+        faint_blue: "#E8F2FF",
+        inverse_blue: "#0077FE",
+        grey: '#D9D9D9',
+        dark: '#111315',
+        green: '#00D9AC',
+        yellow: "#FFCB67",
+      },
+      boxShadow: {
+        'active': '0px 0px 1px 6px rgba(83, 240, 224, 0.418)',
       }
     },
     fontFamily: {

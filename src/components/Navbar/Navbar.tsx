@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ConnectionButton from "../ConnectionButton";
+import { ConnectionButton } from "../core";
 import Download from "../../assets/download.svg";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -71,4 +71,4 @@ const Navbar = () => {
   );
 };
 
-export { Navbar as default};
+export { Navbar as default };
