@@ -1,16 +1,58 @@
 import { useEffect, useState } from "react";
+import { useAccount, useContractRead } from "wagmi";
 import Rectangle from "../../assets/rectangle.svg";
+import { PRESALE_CONTRACT_ADDRESS, USDT_CONTRACT_ADDRESS } from "../../config";
 import { ProgressBar, Timer, TransactionStatus } from "../core";
 import PurchaseToken from "../PurchaseToken";
+import { BEP40Abi, PreSaleAbi } from "../../utils/abi";
+import { makeNum } from "../../lib/number-utils";
+import { ethers } from "ethers";
 
 const TransactionForm = () => {
+  const { address } = useAccount();
+
+  const { data: balanceOf } = useContractRead({
+    address: USDT_CONTRACT_ADDRESS,
+    abi: BEP40Abi,
+    functionName: "balanceOf",
+    args: [address],
+  });
+
+  // @ts-ignore
+  const balance = balanceOf && makeNum(balanceOf?._hex);
+
+  const { data: symbol } = useContractRead({
+    address: USDT_CONTRACT_ADDRESS,
+    abi: BEP40Abi,
+    functionName: "symbol",
+  });
+
+  const { data: raisedBNB } = useContractRead({
+    address: PRESALE_CONTRACT_ADDRESS,
+    abi: PreSaleAbi,
+    functionName: "raisedBNB",
+  });
+
+  const { data: hardCap } = useContractRead({
+    address: PRESALE_CONTRACT_ADDRESS,
+    abi: PreSaleAbi,
+    functionName: "hardCap",
+  });
+
+  // @ts-ignore
+  console.log("TTTTTTT: ", ethers.utils.formatUnits(hardCap));
+  
+  // @ts-ignore
+  const percentage = (Number(ethers.utils.formatUnits(raisedBNB)) / Number(ethers.utils.formatUnits(hardCap))) * 100
+  
+  console.log("OOOOOOO: ", typeof percentage);
   return (
     <div className="mt-4 relative">
       <div
         style={{ background: "rgba(255, 255, 255, 0.4)" }}
         className="inline text-primary font-dm_sans font-bold text-[14px] tracking-[-0.02em] leading-[18px] rounded-[10px] py-[16px] px-[20px]"
       >
-        Your bal: 0.0000034 USDT
+        {`${balance || 0} ${symbol}`}
       </div>
 
       <div className="absolute -left-6 top-9">
@@ -29,7 +71,7 @@ const TransactionForm = () => {
           >
             Sales Progress
           </div>
-          <ProgressBar percentage={50} />
+          <ProgressBar percentage={percentage || 0} />
         </div>
 
         <div className="mt-[30px] md:mt-[40px]">

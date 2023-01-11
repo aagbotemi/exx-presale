@@ -8,8 +8,8 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { WagmiConfig } from 'wagmi'
 import { chains, client } from './wagmi'
 
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "animate.css";
 
 
@@ -18,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <WagmiConfig client={client}>
       <RainbowKitProvider chains={chains}>
         <App />
+        <ToastContainer />
       </RainbowKitProvider>
     </WagmiConfig>
   </React.StrictMode>,

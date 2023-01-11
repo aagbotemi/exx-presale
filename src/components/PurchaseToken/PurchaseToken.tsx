@@ -1,10 +1,48 @@
 import { Fragment, useState } from "react";
+import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { toast } from "react-toastify";
+import { PRESALE_CONTRACT_ADDRESS } from "../../config";
+import { PreSaleAbi } from "../../utils/abi";
+import { Loader } from "../core";
+import { ethers } from "ethers";
 
 const PurchaseToken = () => {
   const [amount, setAmount] = useState<number>(0);
+
+  const {
+    data: buyData,
+    error: buyError,
+    isLoading: buyLoading,
+    write: buy,
+  } = useContractWrite({
+    mode: "recklesslyUnprepared",
+    address: PRESALE_CONTRACT_ADDRESS,
+    abi: PreSaleAbi,
+    functionName: "buy",
+    overrides: {
+      value: ethers.utils.parseEther(amount.toString() || "0"),
+    },
+
+    onError(error: any) {
+      toast.error(`Failed! ${error.reason}`);
+    },
+  });
+
+  const { isLoading: buyWaitLoading } = useWaitForTransaction({
+    hash: buyData?.hash,
+    onSuccess(data: any) {
+      setAmount(0);
+      toast.success("Successful!");
+    },
+    onError(error: any) {
+      toast.error(`Failed! ${error.reason}`);
+    },
+  });
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // logic here
+
+    buy?.();
   };
 
   return (
@@ -15,6 +53,7 @@ const PurchaseToken = () => {
       >
         <div className="relative w-full">
           <input
+            disabled={buyLoading || buyWaitLoading}
             type="number"
             style={{ background: "rgba(255, 255, 255, 0.4)" }}
             className="w-full py-[18px] pl-5 rounded-[10px] text-[14px] leading-[18px] tracking-[-0.02em] text-dark opacity-60 font-medium border border-inverse_blue outline-inverse_blue pr-20"
@@ -28,10 +67,12 @@ const PurchaseToken = () => {
         </div>
 
         <button
+          disabled={buyLoading || buyWaitLoading}
+          // disabled={amount <= 0 || buyLoading || buyWaitLoading}
           type="submit"
           className="bg-primary text-white font-bold text-[14px] leading-[18px] tracking-[-0.02em] py-[18px] pl-[22px] pr-[37px] lg:pl-[42px] lg:pr-[41px] rounded-[10px] ml-[10px]"
         >
-          Buy
+          {buyLoading || buyWaitLoading ? <Loader /> : "Buy"}
         </button>
       </form>
 
