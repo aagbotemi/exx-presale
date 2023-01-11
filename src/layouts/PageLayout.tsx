@@ -9,7 +9,7 @@ interface IChildren {
 const PageLayout = ({children}: IChildren) => {
   return (
     <Fragment>
-      <div className="max-w-[1440px] w-full mx-auto px-[24px] md:px-[50px] lg:px-[100px] border-2 border-primary">
+      <div className="max-w-[1440px] w-full mx-auto px-[24px] md:px-[50px] lg:px-[100px]">
         <Navbar />
         {children}
         <Footer />

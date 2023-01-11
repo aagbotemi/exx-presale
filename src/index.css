@@ -2,13 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+*, ::after, ::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 @layer base {
   html {
     background: linear-gradient(
-      0deg,
-      rgba(0, 221, 168, 0.2),
-      rgba(0, 221, 168, 0.2)
-    );
+        0deg,
+        rgba(0, 221, 168, 0.2),
+        rgba(0, 221, 168, 0.2)
+      ),
+      url("575.jpg");
+    background-size: cover;
     overflow-x: hidden;
   }
 }
