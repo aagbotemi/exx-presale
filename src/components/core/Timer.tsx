@@ -20,8 +20,8 @@ const Timer = () => {
   return (
     <Fragment>
       <span className="font-space_grot font-bold text-2xl tracking-[-0.02em] text-black">
-        {hour < 9 ? `0${hour}` : hour}:{minutes < 9 ? `0${minutes}` : minutes}:
-        {seconds < 9 ? `0${seconds}` : seconds}
+        {hour <= 9 ? `0${hour}` : hour}:{minutes <= 9 ? `0${minutes}` : minutes}
+        :{seconds <= 9 ? `0${seconds}` : seconds}
       </span>
     </Fragment>
   );
