@@ -52,7 +52,7 @@ const TransactionForm = () => {
         style={{ background: "rgba(255, 255, 255, 0.4)" }}
         className="inline text-primary font-dm_sans font-bold text-[14px] tracking-[-0.02em] leading-[18px] rounded-[10px] py-[16px] px-[20px]"
       >
-        Your bal: {`${balance || 0} ${symbol}`}
+        Your bal: {`${balance ?? 0} ${symbol ?? "USDT"}`}
       </div>
 
       <div className="absolute -left-6 top-9">
