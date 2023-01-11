@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useAccount, useContractRead } from "wagmi";
 import Rectangle from "../../assets/rectangle.svg";
 import { PRESALE_CONTRACT_ADDRESS, USDT_CONTRACT_ADDRESS } from "../../config";
@@ -6,7 +5,7 @@ import { ProgressBar, Timer, TransactionStatus } from "../core";
 import PurchaseToken from "../PurchaseToken";
 import { BEP40Abi, PreSaleAbi } from "../../utils/abi";
 import { makeNum } from "../../lib/number-utils";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 const TransactionForm = () => {
   const { address } = useAccount();
@@ -15,11 +14,11 @@ const TransactionForm = () => {
     address: USDT_CONTRACT_ADDRESS,
     abi: BEP40Abi,
     functionName: "balanceOf",
-    args: [address],
+    args: [address ?? "0x0"],
   });
 
   // @ts-ignore
-  const balance = balanceOf && makeNum(balanceOf?._hex);
+  const balance = balanceOf && makeNum(balanceOf._hex ?? BigNumber.from(0));
 
   const { data: symbol } = useContractRead({
     address: USDT_CONTRACT_ADDRESS,
@@ -39,13 +38,14 @@ const TransactionForm = () => {
     functionName: "hardCap",
   });
 
-  // @ts-ignore
-  console.log("TTTTTTT: ", ethers.utils.formatUnits(hardCap));
-  
-  // @ts-ignore
-  const percentage = (Number(ethers.utils.formatUnits(raisedBNB)) / Number(ethers.utils.formatUnits(hardCap))) * 100
-  
-  console.log("OOOOOOO: ", typeof percentage);
+  const bnb = raisedBNB ? (raisedBNB as BigNumber) : BigNumber.from(0);
+  const cap = hardCap ? (hardCap as BigNumber) : BigNumber.from(0);
+
+  const percentage =
+    (Number(ethers.utils.formatUnits(bnb)) /
+      Number(ethers.utils.formatUnits(cap))) *
+    100;
+
   return (
     <div className="mt-4 relative">
       <div

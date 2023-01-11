@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&family=Space+Grotesk&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,7 +19,7 @@
         rgba(0, 221, 168, 0.2),
         rgba(0, 221, 168, 0.2)
       ),
-      url("575.jpg");
+      url("./assets/575.jpg");
     background-attachment: fixed;
     background-repeat: "no-repeat";
     background-position: center center;

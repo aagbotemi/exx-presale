@@ -1,11 +1,14 @@
 import { Fragment } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 
 function App() {
   return (
-    <Fragment>
-      <Home />
-    </Fragment>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
